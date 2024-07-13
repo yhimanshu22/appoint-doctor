@@ -3,7 +3,7 @@ name: Build on push
 on:
   push:
     branches:
-      - master  # Change this to your main branch name if different
+      - master  # Adjust to your main branch name if different
 
 jobs:
   build:
@@ -11,10 +11,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+      
       - name: Install dependencies
-        run: npm install
-        
+        run: |
+          cd client
+          npm install
+          cd ..
+      
       - name: Build project
-        run: npm run build
-
+        run: |
+          cd client
+          npm run build
