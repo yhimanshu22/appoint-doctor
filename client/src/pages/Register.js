@@ -19,6 +19,7 @@ const Register = () => {
       const res = await axios.post(`${rootUrl}/api/v1/user/register`, values);
 
       dispatch(hideLoading());
+      
       if (res.data.success) {
         message.success("Register Successfully!");
         navigate("/login");
