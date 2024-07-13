@@ -1,0 +1,20 @@
+name: Build on push
+
+on:
+  push:
+    branches:
+      - master  # Change this to your main branch name if different
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build project
+        run: npm run build
+
