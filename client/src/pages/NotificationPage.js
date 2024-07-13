@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import rootUrl from "../Data/proxy";
 
 const NotificationPage = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const NotificationPage = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/get-all-notification",
+        `${rootUrl}/api/v1/user/get-all-notification`,
         {
           userId: user._id,
         },
@@ -27,7 +28,7 @@ const NotificationPage = () => {
       );
 
       dispatch(hideLoading());
-      
+
       if (res.data.success) {
         message.success(res.data.message);
       } else {

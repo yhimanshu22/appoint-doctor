@@ -6,6 +6,8 @@ import { Col, Form, Input, Row, TimePicker, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
 import moment from "moment";
+import rootUrl from "../../Data/proxy";
+
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -19,7 +21,7 @@ const Profile = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/doctor/updateProfile",
+        `${rootUrl}/api/v1/doctor/updateProfile`,
         {
           ...values,
           userId: user._id,
@@ -53,7 +55,7 @@ const Profile = () => {
   const getDoctorInfo = async () => {
     try {
       const res = await axios.post(
-        "/api/v1/doctor/getDoctorInfo",
+        `${rootUrl}/api/v1/doctor/getDoctorInfo`,
         { userId: params.id },
         {
           headers: {

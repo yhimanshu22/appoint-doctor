@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import axios from "axios";
 import moment from "moment";
+import rootUrl from "../Data/proxy";
+
 const ApplyDoctor = () => {
   const { user } = useSelector((state) => state.user);
 
@@ -15,9 +17,9 @@ const ApplyDoctor = () => {
   const handleFinish = async (values) => {
     try {
       dispatch(showLoading());
-      
+
       const res = await axios.post(
-        "/api/v1/user/apply-doctor",
+        `${rootUrl}/api/v1/user/apply-doctor`,
         {
           ...values,
           userId: user._id,

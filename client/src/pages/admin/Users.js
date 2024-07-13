@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import Layout from "./../../components/Layout";
 import axios from "axios";
 import { Table } from "antd";
+import rootUrl from "../../Data/proxy";
+
 const Users = () => {
   const [users, setUsers] = useState([]);
 
   //getUsers
   const getUsers = async () => {
     try {
-      const res = await axios.get("/api/v1/admin/getAllUsers", {
+      const res = await axios.get(`${rootUrl}/api/v1/admin/getAllUsers`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

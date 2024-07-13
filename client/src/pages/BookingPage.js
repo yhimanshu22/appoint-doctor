@@ -6,6 +6,7 @@ import { DatePicker, message, TimePicker } from "antd";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
+import rootUrl from "../Data/proxy";
 
 const BookingPage = () => {
   const { user } = useSelector((state) => state.user);
@@ -15,11 +16,12 @@ const BookingPage = () => {
   const [time, setTime] = useState();
   const [isAvailable, setIsAvailable] = useState(false);
   const dispatch = useDispatch();
+
   // login user data
   const getUserData = async () => {
     try {
       const res = await axios.post(
-        "/api/v1/doctor/getDoctorById",
+        `${rootUrl}/api/v1/doctor/getDoctorById`,
         { doctorId: params.doctorId },
         {
           headers: {

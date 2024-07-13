@@ -3,13 +3,16 @@ import axios from "axios";
 import Layout from "./../components/Layout";
 import { Row } from "antd";
 import DoctorList from "../components/DoctorList";
+import rootUrl from "../Data/proxy";
+
 const HomePage = () => {
   const [doctors, setDoctors] = useState([]);
+
   // login user data
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        "/api/v1/user/getAllDoctors",
+        `${rootUrl}/api/v1/user/getAllDoctors`,
 
         {
           headers: {

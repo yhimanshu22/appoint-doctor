@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import rootUrl from "../Data/proxy";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login = () => {
   const onfinishHandler = async (values) => {
     try {
       dispatch(showLoading());
-      const res = await axios.post("/api/v1/user/login", values);
+      const res = await axios.post(`${rootUrl}/api/v1/user/login`, values);
       window.location.reload();
       dispatch(hideLoading());
       if (res.data.success) {
