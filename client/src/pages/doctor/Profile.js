@@ -20,6 +20,7 @@ const Profile = () => {
   const handleFinish = async (values) => {
     try {
       dispatch(showLoading());
+
       const res = await axios.post(
         `${rootUrl}/api/v1/doctor/updateProfile`,
         {
@@ -37,6 +38,7 @@ const Profile = () => {
         }
       );
       dispatch(hideLoading());
+
       if (res.data.success) {
         message.success(res.data.message);
         navigate("/");
@@ -46,7 +48,7 @@ const Profile = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      message.error("Somthing Went Wrrong ");
+      message.error("Somthing Went Wrong ");
     }
   };
   // update doc ==========
