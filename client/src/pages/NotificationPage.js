@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "./../components/Layout";
-import { message, Tabs } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,8 @@ const NotificationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
-  //   handle read notification
+
+  // Handle marking all notifications as read
   const handleMarkAllRead = async () => {
     try {
       dispatch(showLoading());
@@ -30,23 +30,23 @@ const NotificationPage = () => {
       dispatch(hideLoading());
 
       if (res.data.success) {
-        message.success(res.data.message);
+        alert("Marked all notifications as read");
       } else {
-        message.error(res.data.message);
+        alert(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      message.error("somthing went wrong");
+      alert("Something went wrong");
     }
   };
 
-  // delete notifications
+  // Handle deleting all read notifications
   const handleDeleteAllRead = async () => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "/api/v1/user/delete-all-notification",
+        `${rootUrl}/api/v1/user/delete-all-notification`,
         { userId: user._id },
         {
           headers: {
@@ -56,59 +56,78 @@ const NotificationPage = () => {
       );
       dispatch(hideLoading());
       if (res.data.success) {
-        message.success(res.data.message);
+        alert("Deleted all read notifications");
       } else {
-        message.error(res.data.message);
+        alert(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
-      message.error("Somthing Went Wrong In Ntifications");
+      alert("Something went wrong with notifications");
     }
   };
+
   return (
     <Layout>
-      <h4 className="p-3 text-center">Notification Page</h4>
-      <Tabs>
-        <Tabs.TabPane tab="unRead" key={0}>
-          <div className="d-flex justify-content-end">
-            <h4 className="p-2" onClick={handleMarkAllRead}>
-              Mark All Read
-            </h4>
+      <div className="p-6 bg-gray-100 min-h-screen">
+        <h4 className="text-2xl font-semibold text-center mb-6">Notification Page</h4>
+        <div className="bg-white shadow-md rounded-lg">
+          <div className="border-b border-gray-200">
+            <div className="flex border-b">
+              <button
+                className="w-1/2 p-4 text-blue-500 font-semibold border-b-2 border-transparent hover:border-blue-500"
+                onClick={() => document.getElementById('unread').scrollIntoView()}
+              >
+                Unread
+              </button>
+              <button
+                className="w-1/2 p-4 text-blue-500 font-semibold border-b-2 border-transparent hover:border-blue-500"
+                onClick={() => document.getElementById('read').scrollIntoView()}
+              >
+                Read
+              </button>
+            </div>
           </div>
-          {user?.notifcation.map((notificationMgs) => (
-            <div className="card" style={{ cursor: "pointer" }}>
+          <div id="unread" className="p-4">
+            <div className="flex justify-end mb-4">
+              <button
+                className="text-blue-600 hover:text-blue-800 font-semibold"
+                onClick={handleMarkAllRead}
+              >
+                Mark All Read
+              </button>
+            </div>
+            {user?.notifcation.map((notificationMgs) => (
               <div
-                className="card-text"
+                key={notificationMgs._id}
+                className="bg-white p-4 mb-2 border border-gray-200 rounded-md cursor-pointer hover:bg-gray-50"
                 onClick={() => navigate(notificationMgs.onClickPath)}
               >
                 {notificationMgs.message}
               </div>
-            </div>
-          ))}
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Read" key={1}>
-          <div className="d-flex justify-content-end">
-            <h4
-              className="p-2 text-primary"
-              style={{ cursor: "pointer" }}
-              onClick={handleDeleteAllRead}
-            >
-              Delete All Read
-            </h4>
+            ))}
           </div>
-          {user?.seennotification.map((notificationMgs) => (
-            <div className="card" style={{ cursor: "pointer" }}>
+          <div id="read" className="p-4">
+            <div className="flex justify-end mb-4">
+              <button
+                className="text-red-600 hover:text-red-800 font-semibold"
+                onClick={handleDeleteAllRead}
+              >
+                Delete All Read
+              </button>
+            </div>
+            {user?.seennotification.map((notificationMgs) => (
               <div
-                className="card-text"
+                key={notificationMgs._id}
+                className="bg-white p-4 mb-2 border border-gray-200 rounded-md cursor-pointer hover:bg-gray-50"
                 onClick={() => navigate(notificationMgs.onClickPath)}
               >
                 {notificationMgs.message}
               </div>
-            </div>
-          ))}
-        </Tabs.TabPane>
-      </Tabs>
+            ))}
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };
