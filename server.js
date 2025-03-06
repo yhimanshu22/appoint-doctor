@@ -4,6 +4,7 @@ const moragan = require("morgan");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require("path");
+const cors = require("cors")
 
 //dotenv conig
 dotenv.config();
@@ -15,6 +16,7 @@ connectDB();
 const app = express();
 
 //middlewares
+app.use(cors())
 app.use(express.json());
 app.use(moragan("dev"));
 
