@@ -24,13 +24,13 @@ router.post("/login", loginController);
 router.post("/register", registerController);
 
 //Auth || POST
-router.post("/getUserData", authMiddleware, authController);
+router.get("/getUserData", authMiddleware, authController);
 
 //APply Doctor || POST
 router.post("/apply-doctor", authMiddleware, applyDoctorController);
 
 //Notifiaction  Doctor || POST
-router.post(
+router.get(
   "/get-all-notification",
   authMiddleware,
   getAllNotificationController
